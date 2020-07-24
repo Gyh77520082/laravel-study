@@ -1,10 +1,12 @@
+
 <!DOCTYPE html>
 <html>
   <head>
     <title>@yield('title','weibo App')-laravel半年依旧初学者</title>
     <link rel="stylesheet" type="text/css" href="{{ mix('css/app.css') }}">
   </head>
-   <body>
+
+  <body>
     @include('layouts._header')
 
     <div class="container">
@@ -14,5 +16,7 @@
         @include('layouts._footer')
       </div>
     </div>
+
+    <script src="{{ mix('js/app.js') }}"></script>
   </body>
 </html>
