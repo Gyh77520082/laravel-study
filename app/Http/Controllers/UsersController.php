@@ -72,5 +72,13 @@ class UsersController extends Controller
             'only' => ['create']
         ]);
     }
+
+
+    //用户列表页
+   public function index()
+    {
+        $users = User::paginate(10);
+        return view('users.index', compact('users'));
+    }
    
 }
