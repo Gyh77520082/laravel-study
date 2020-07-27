@@ -24,7 +24,9 @@ class SessionsController extends Controller
        if (Auth::attempt($credentials, $request->has('remember'))) {
            // 登录成功后的相关操作
        		session()->flash('success', '欢迎回来！');
-           	return redirect()->route('users.show', [Auth::user()]);
+          $fallback = route('users.show', Auth::user());
+          //intended可将页面重定向到上一次请求尝试访问的页面上，并接收一个默认跳转地址参数，当上一次请求记录为空时，跳转到默认地址上
+          return redirect()->intended($fallback);
        } else {
            // 登录失败后的相关操作
        	 	session()->flash('danger', '很抱歉，您的邮箱和密码不匹配');
@@ -38,5 +40,12 @@ class SessionsController extends Controller
         Auth::logout();
         session()->flash('success', '您已成功退出！');
         return redirect('login');
+    }
+
+    public function __construct()
+    {
+        $this->middleware('guest', [
+            'only' => ['create']
+        ]);
     }
 }

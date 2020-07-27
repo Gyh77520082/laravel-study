@@ -37,21 +37,40 @@ class UsersController extends Controller
     }
     //更新用户
     public function edit(User $user){
+        $this->authorize('update', $user);
         return view('users.edit',compact('user'));
     }
     //执行修改操作
-     public function update(User $user, Request $request)
+    public function update(User $user, Request $request)
     {
+        $this->authorize('update', $user);
         $this->validate($request, [
             'name' => 'required|max:50',
-            'password' => 'required|confirmed|min:6'
+            'password' => 'nullable|confirmed|min:6'
         ]);
 
-        $user->update([
-            'name' => $request->name,
-            'password' => bcrypt($request->password),
-        ]);
+        $data = [];
+        $data['name'] = $request->name;
+        if ($request->password) {
+            $data['password'] = bcrypt($request->password);
+        }
+        $user->update($data);
+
+        session()->flash('success', '个人资料更新成功！');
 
         return redirect()->route('users.show', $user->id);
     }
+    //权限中间件 
+     public function __construct()
+    {
+        $this->middleware('auth', [    
+            //only         
+            'except' => [ 'create', 'store']
+        ]);
+
+        $this->middleware('guest', [
+            'only' => ['create']
+        ]);
+    }
+   
 }
