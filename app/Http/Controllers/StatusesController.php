@@ -8,6 +8,8 @@ use Auth;
 
 class StatusesController extends Controller
 {
+
+    //添加
    public function __construct()
     {
         $this->middleware('auth');
@@ -23,6 +25,15 @@ class StatusesController extends Controller
             'content' => $request['content']
         ]);
         session()->flash('success', '发布成功！');
+        return redirect()->back();
+    }
+
+    //删除
+     public function destroy(Status $status)
+    {
+        $this->authorize('destroy', $status);
+        $status->delete();
+        session()->flash('success', '微博已被成功删除！');
         return redirect()->back();
     }
 }
