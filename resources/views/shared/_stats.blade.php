@@ -15,4 +15,4 @@
     {{ $user->statuses()->count() }}
   </strong>
   微博
-</a>
+</a>  
