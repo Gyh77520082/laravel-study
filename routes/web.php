@@ -17,3 +17,11 @@ Route::delete('logout', 'SessionsController@destroy')->name('logout');
 
 //邮件激活路由
 Route::get('confirm/{token}', 'UsersController@confirmEmail')->name('confirm_email');
+
+//密码重置路由
+Route::group(['prefix'=>'password','namespace'=>'Auth'],function(){
+Route::get('reset', 'ForgotPasswordController@showLinkRequestForm')->name('password.request');
+Route::post('email', 'ForgotPasswordController@sendResetLinkEmail')->name('password.email');
+Route::get('reset/{token}', 'ResetPasswordController@showResetForm')->name('password.reset');
+Route::post('reset', 'ResetPasswordController@reset')->name('password.update');
+});

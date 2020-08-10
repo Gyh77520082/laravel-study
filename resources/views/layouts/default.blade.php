@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>@yield('title','weibo App')-laravel半年依旧初学者</title>
+    <title>@yield('title','weibo App')  </title>
     <link rel="stylesheet" type="text/css" href="{{ mix('css/app.css') }}">
   </head>
 
