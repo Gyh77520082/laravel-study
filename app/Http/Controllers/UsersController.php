@@ -10,11 +10,15 @@ use Auth;
 
 class UsersController extends Controller
 {
-	//展示頁
-	 public function show(User $user)
+      //显示微博
+     public function show(User $user)
     {
-        return view('users.show', compact('user'));
+        $statuses = $user->statuses()
+                           ->orderBy('created_at', 'desc')
+                           ->paginate(10);
+        return view('users.show', compact('user', 'statuses'));
     }
+	   
     //返回注册页面
     public function create(){
     	return view('users.create');
@@ -53,7 +57,7 @@ class UsersController extends Controller
         $to = $user->email;
         $subject = "感谢注册 Weibo 应用！请确认你的邮箱。";
 
-        Mail::send($view, $data, function ($message) use ($from, $name, $to, $subject) {
+        Mail::send($view, $data, function ($message) use ($name, $to, $subject) {
             $message->to($to)->subject($subject);
         });
     }
@@ -124,6 +128,11 @@ class UsersController extends Controller
         session()->flash('success', '成功删除用户！');
         return back();
     }
+
+
+
+
+
 
    
 }
